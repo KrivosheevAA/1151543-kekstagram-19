@@ -1,0 +1,70 @@
+'use strict';
+
+var RULES = {
+  PHOTO: {
+    COUNT: 25,
+    LIKE: {
+      MIN: 15,
+      MAX: 200
+    }
+  },
+  NAME_AVATAR: {
+    MIN: 1,
+    MAX: 6
+  },
+  COMMENT: {
+    MIN: 1,
+    MAX: 6
+  }
+};
+
+var COMMENTS = [
+  'Всё отлично!',
+  'В целом всё неплохо. Но не всё.',
+  'Когда вы делаете фотографию, хорошо бы убирать палец из кадра. В конце концов это просто непрофессионально.',
+  'Моя бабушка случайно чихнула с фотоаппаратом в руках и у неё получилась фотография лучше.',
+  'Я поскользнулся на банановой кожуре и уронил фотоаппарат на кота и у меня получилась фотография лучше.',
+  'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!'
+];
+
+var NAMES = [
+  'Андрей',
+  'Маша',
+  'Катя',
+  'Саша',
+  'Антон',
+  'Михаил'
+];
+
+var getRandomNumber = function (min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+};
+
+var getRandomArrayElement = function (array) {
+  return array[getRandomNumber(0, array.length - 1)];
+};
+
+var createComment = function (count) {
+  var comments = [];
+  for (var i = 0; i < count; i++) {
+    comments[i] = {
+      avatar: 'img/avatar-' + getRandomNumber(RULES.NAME_AVATAR.MIN, RULES.NAME_AVATAR.MAX) +  '.svg',
+      message: getRandomArrayElement(COMMENTS),
+      name: getRandomArrayElement(NAMES),
+    }
+  }
+  return comments;
+};
+
+var createPictures = function (count) {
+  var pictures = [];
+  for (var i = 0; i < count; i++) {
+    pictures[i] = {
+      url: 'photos/' + (i + 1) + '.jpg',
+      description: 'описание фотографии',
+      likes: getRandomNumber(RULES.PHOTO.LIKE.MIN, RULES.PHOTO.LIKE.MAX),
+      comments: createComment(getRandomNumber(RULES.COMMENT.MIN, RULES.COMMENT.MAX))
+    };
+  }
+  return pictures;
+};
