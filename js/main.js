@@ -48,10 +48,10 @@ var createComment = function (count) {
   var comments = [];
   for (var i = 0; i < count; i++) {
     comments[i] = {
-      avatar: 'img/avatar-' + getRandomNumber(RULES.NAME_AVATAR.MIN, RULES.NAME_AVATAR.MAX) +  '.svg',
+      avatar: 'img/avatar-' + getRandomNumber(RULES.NAME_AVATAR.MIN, RULES.NAME_AVATAR.MAX) + '.svg',
       message: getRandomArrayElement(COMMENTS),
       name: getRandomArrayElement(NAMES),
-    }
+    };
   }
   return comments;
 };
@@ -68,3 +68,25 @@ var createPictures = function (count) {
   }
   return pictures;
 };
+
+var pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
+
+var getPicture = function (picture) {
+  var clonePictureElement = pictureTemplate.cloneNode(true);
+  clonePictureElement.querySelector('.picture__img').src = picture.url;
+  clonePictureElement.querySelector('.picture__comments').textContent = picture.comments.length;
+  clonePictureElement.querySelector('.picture__likes').textContent = picture.likes;
+
+  return clonePictureElement;
+};
+
+var renderPictureInDOM = function (pictures) {
+  var picturesContainer = document.querySelector('.pictures');
+  var fragment = document.createDocumentFragment();
+  for (var i = 0; i < pictures.length; i++) {
+    fragment.appendChild(getPicture(pictures[i]));
+  }
+  return picturesContainer.appendChild(fragment);
+};
+
+renderPictureInDOM(createPictures(25));
