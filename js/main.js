@@ -90,3 +90,13 @@ var renderPictureInDOM = function (pictures) {
 };
 
 renderPictureInDOM(createPictures(25));
+
+var showBigPictire = document.querySelector('.big-picture');
+showBigPictire.classList.remove('hidden');
+
+var getBigPicture = function (picture) {
+getBigPicture.querySelector('.big-picture__img').querySelector('img').src = picture.url;
+getBigPicture.querySelector('.likes-count').textContent = picture.likes;
+getBigPicture.querySelector('.comments-count').textContent = picture.comments.length;
+
+};
