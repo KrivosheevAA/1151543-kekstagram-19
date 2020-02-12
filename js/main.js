@@ -90,3 +90,44 @@ var renderPictureInDOM = function (pictures) {
 };
 
 renderPictureInDOM(createPictures(25));
+
+//задание из раздела 3.2
+
+
+var showBigPictire = document.querySelector('.big-picture');
+var closeBigPicture = document.querySelector('.big-picture__cancel')
+
+showBigPictire.classList.remove('hidden');
+document.body.classList.add('modal-open');
+
+closeBigPicture.addEventListener('click', function (evt) {
+  showBigPictire.classList.add('hidden');
+});
+
+
+var getBigPicture = function (picture) {
+getBigPicture.querySelector('.big-picture__img').querySelector('img').src = picture.url;
+getBigPicture.querySelector('.likes-count').textContent = picture.likes;
+getBigPicture.querySelector('.comments-count').textContent = picture.comments.length;
+getBigPicture.querySelector('.social__caption').textContent = picture.description;
+
+return getBigPicture;
+
+};
+
+var renderComments = function (comments) {
+  for (var i = 0; i < comments.length; i++) {
+   fragment.appendChild(getBigPicture(comments[i]));
+  }
+};
+
+//задание 4.1
+var uploadFileElement = document.querySelector('#upload-file');
+
+var onUploadFile = function (evt) {
+  uploadFileElement.addEventListener('change', onUploadFile);
+
+};
+
+onUploadFile();
+
