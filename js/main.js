@@ -91,12 +91,13 @@ var renderPictureInDOM = function (pictures) {
 
 renderPictureInDOM(createPictures(25));
 
+//задание из раздела 3.2
+
+
 var showBigPictire = document.querySelector('.big-picture');
 var closeBigPicture = document.querySelector('.big-picture__cancel')
 
-
 showBigPictire.classList.remove('hidden');
-
 document.body.classList.add('modal-open');
 
 closeBigPicture.addEventListener('click', function (evt) {
@@ -105,22 +106,19 @@ closeBigPicture.addEventListener('click', function (evt) {
 
 
 var getBigPicture = function (picture) {
-  var cloneBigPictureElement = showBigPictire.cloneNode(true);
 getBigPicture.querySelector('.big-picture__img').querySelector('img').src = picture.url;
 getBigPicture.querySelector('.likes-count').textContent = picture.likes;
 getBigPicture.querySelector('.comments-count').textContent = picture.comments.length;
+getBigPicture.querySelector('.social__caption').textContent = picture.description;
 
-return cloneBigPictureElement;
+return getBigPicture;
 
 };
 
-var renderBigPictureInDOM = function (pictures) {
-  var BigPicturesContainer = document.querySelector('.big-picture');
-  var fragmentBigPicture = document.createDocumentFragment();
-  for (var i = 0; i < pictures.length; i++) {
-    fragmentBigPicture.appendChild(getBigPicture(pictures[i]));
+var renderComments = function (comments) {
+  for (var i = 0; i < comments.length; i++) {
+   fragment.appendChild(getBigPicture(comments[i]));
   }
-  return BigPicturesContainer.appendChild(fragmentBigPicture);
 };
 
-renderBigPictureInDOM(createPictures(25));
+//задание 4.1
