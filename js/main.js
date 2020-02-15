@@ -97,6 +97,7 @@ renderPictureInDOM(createPictures(25));
 var showBigPictire = document.querySelector('.big-picture');
 var closeBigPicture = document.querySelector('.big-picture__cancel')
 
+
 showBigPictire.classList.remove('hidden');
 document.body.classList.add('modal-open');
 
@@ -123,11 +124,13 @@ var renderComments = function (comments) {
 
 //задание 4.1
 var uploadFileElement = document.querySelector('#upload-file');
+var closeImageEdit = document.querySelector('#upload-cancel')
 
 var onUploadFile = function (evt) {
   uploadFileElement.addEventListener('change', onUploadFile);
-
+  document.body.classList.add('modal-open');
 };
 
-onUploadFile();
-
+closeImageEdit.addEventListener('click', function (closeevt) {
+  uploadFileElement.classList.add('hidden');
+});
