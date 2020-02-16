@@ -94,8 +94,6 @@ var renderPictureInDOM = function (pictures) {
 
 renderPictureInDOM(createPictures(25));
 
-//задание из раздела 3.2
-
 var bigPictureContainer = document.querySelector('.big-picture');
 var blockCommentCouter = document.querySelector('.social__comment-count');
 var loaderComments = document.querySelector('.comments-loader');
@@ -104,9 +102,6 @@ blockCommentCouter.classList.add('hidden');
 loaderComments.classList.add('hidden');
 bigPictureContainer.classList.remove('hidden');
 document.body.classList.add('modal-open');
-
-
-var commentsList = bigPictureContainer.querySelector('.social__comments');
 
 var getCommentNode = function () {
   var createContainerComment = document.createElement('li');
