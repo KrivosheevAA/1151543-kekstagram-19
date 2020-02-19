@@ -15,6 +15,9 @@ var RULES = {
   COMMENT: {
     MIN: 1,
     MAX: 6
+  },
+  AVATAR: {
+    SIZE: 35
   }
 };
 
@@ -91,46 +94,83 @@ var renderPictureInDOM = function (pictures) {
 
 renderPictureInDOM(createPictures(25));
 
-//задание из раздела 3.2
+var bigPictureContainer = document.querySelector('.big-picture');
+var blockCommentCouter = document.querySelector('.social__comment-count');
+var loaderComments = document.querySelector('.comments-loader');
 
-
-var showBigPictire = document.querySelector('.big-picture');
-var closeBigPicture = document.querySelector('.big-picture__cancel')
-
-
-showBigPictire.classList.remove('hidden');
+blockCommentCouter.classList.add('hidden');
+loaderComments.classList.add('hidden');
+bigPictureContainer.classList.remove('hidden');
 document.body.classList.add('modal-open');
 
-closeBigPicture.addEventListener('click', function (evt) {
-  showBigPictire.classList.add('hidden');
+var getCommentNode = function () {
+  var createContainerComment = document.createElement('li');
+  createContainerComment.classList.add('social__comment');
+  var createImgElement = document.createElement('img');
+  createImgElement.classList.add('social__picture');
+  createImgElement.width = RULES.AVATAR.SIZE;
+  createImgElement.height = RULES.AVATAR.SIZE;
+  var createDescriptionElement = document.createElement('p');
+  createDescriptionElement.classList.add('social__text');
+  createContainerComment.appendChild(createImgElement);
+  createContainerComment.appendChild(createDescriptionElement);
+
+  return createContainerComment;
+};
+
+var renderCommentElement = function (comments) {
+  var fragment = document.createDocumentFragment();
+  for (var i = 0; i < comments.length; i++) {
+    var commentElement = getCommentNode();
+    commentElement.querySelector('.social__picture').src = comments[i].avatar;
+    commentElement.querySelector('.social__picture').alt = comments[i].name;
+    commentElement.querySelector('.social__text').textContent = comments[i].message;
+    fragment.appendChild(commentElement);
+  }
+
+  return fragment;
+};
+
+var setBigPictureInfo = function (picture) {
+  bigPictureContainer.querySelector('.big-picture__img').querySelector('img').src = picture.url;
+  bigPictureContainer.querySelector('.likes-count').textContent = picture.likes;
+  bigPictureContainer.querySelector('.comments-count').textContent = picture.comments.length;
+  bigPictureContainer.querySelector('.social__caption').textContent = picture.description;
+  bigPictureContainer.querySelector('.social__comments').appendChild(renderCommentElement(picture.comments));
+
+};
+
+setBigPictureInfo(createPictures(25)[3]);
+
+var closeBigPictureContainer = document.querySelector('.big-picture__cancel');
+
+closeBigPictureContainer.addEventListener('click', function () {
+  bigPictureContainer.classList.add('hidden');
 });
 
-
-var getBigPicture = function (picture) {
-getBigPicture.querySelector('.big-picture__img').querySelector('img').src = picture.url;
-getBigPicture.querySelector('.likes-count').textContent = picture.likes;
-getBigPicture.querySelector('.comments-count').textContent = picture.comments.length;
-getBigPicture.querySelector('.social__caption').textContent = picture.description;
-
-return getBigPicture;
-
-};
-
-var renderComments = function (comments) {
-  for (var i = 0; i < comments.length; i++) {
-   fragment.appendChild(getBigPicture(comments[i]));
-  }
-};
-
 //задание 4.1
+
+
+
 var uploadFileElement = document.querySelector('#upload-file');
-var closeImageEdit = document.querySelector('#upload-cancel')
+var closeImageEdit = document.querySelector('#upload-cancel');
+var pictureEditorElement = document.querySelector('.img-upload__overlay');
+
+document.body.classList.add('modal-open');
+pictureEditorElement.classList.remove('hidden');
 
 var onUploadFile = function (evt) {
   uploadFileElement.addEventListener('change', onUploadFile);
-  document.body.classList.add('modal-open');
 };
 
-closeImageEdit.addEventListener('click', function (closeevt) {
-  uploadFileElement.classList.add('hidden');
+
+closeImageEdit.addEventListener('click', function () {
+  pictureEditorElement.classList.add('hidden');
 });
+
+document.addEventListener('keydown', function (evt) {
+  if (evt.key === 'Escape') {
+    pictureEditorElement.classList.add('hidden');
+  }
+});
+
