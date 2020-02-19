@@ -15,6 +15,9 @@ var RULES = {
   COMMENT: {
     MIN: 1,
     MAX: 6
+  },
+  AVATAR: {
+    SIZE: 35
   }
 };
 
@@ -90,3 +93,51 @@ var renderPictureInDOM = function (pictures) {
 };
 
 renderPictureInDOM(createPictures(25));
+
+var bigPictureContainer = document.querySelector('.big-picture');
+var blockCommentCouter = document.querySelector('.social__comment-count');
+var loaderComments = document.querySelector('.comments-loader');
+
+blockCommentCouter.classList.add('hidden');
+loaderComments.classList.add('hidden');
+bigPictureContainer.classList.remove('hidden');
+document.body.classList.add('modal-open');
+
+var getCommentNode = function () {
+  var createContainerComment = document.createElement('li');
+  createContainerComment.classList.add('social__comment');
+  var createImgElement = document.createElement('img');
+  createImgElement.classList.add('social__picture');
+  createImgElement.width = RULES.AVATAR.SIZE;
+  createImgElement.height = RULES.AVATAR.SIZE;
+  var createDescriptionElement = document.createElement('p');
+  createDescriptionElement.classList.add('social__text');
+  createContainerComment.appendChild(createImgElement);
+  createContainerComment.appendChild(createDescriptionElement);
+
+  return createContainerComment;
+};
+
+var renderCommentElement = function (comments) {
+  var fragment = document.createDocumentFragment();
+  for (var i = 0; i < comments.length; i++) {
+    var commentElement = getCommentNode();
+    commentElement.querySelector('.social__picture').src = comments[i].avatar;
+    commentElement.querySelector('.social__picture').alt = comments[i].name;
+    commentElement.querySelector('.social__text').textContent = comments[i].message;
+    fragment.appendChild(commentElement);
+  }
+
+  return fragment;
+};
+
+var setBigPictureInfo = function (picture) {
+  bigPictureContainer.querySelector('.big-picture__img').querySelector('img').src = picture.url;
+  bigPictureContainer.querySelector('.likes-count').textContent = picture.likes;
+  bigPictureContainer.querySelector('.comments-count').textContent = picture.comments.length;
+  bigPictureContainer.querySelector('.social__caption').textContent = picture.description;
+  bigPictureContainer.querySelector('.social__comments').appendChild(renderCommentElement(picture.comments));
+
+};
+
+setBigPictureInfo(createPictures(25)[3]);
