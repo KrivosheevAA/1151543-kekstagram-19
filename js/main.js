@@ -18,6 +18,11 @@ var RULES = {
   },
   AVATAR: {
     SIZE: 35
+  },
+  ZOOM: {
+    MIN: 25,
+    MAX: 100,
+    STEP: 25
   }
 };
 
@@ -160,7 +165,7 @@ document.body.classList.add('modal-open');
 pictureEditorElement.classList.remove('hidden');
 
 var onUploadFile = function (evt) {
-  uploadFileElement.addEventListener('change', onUploadFile);
+  uploadFileElement.addEventListener('change', uploadFileElement);
 };
 
 
@@ -174,3 +179,39 @@ document.addEventListener('keydown', function (evt) {
   }
 });
 
+var minScale = document.querySelector('.scale__control--smaller');
+var maxScale = document.querySelector('.scale__control--bigger');
+var valueScale = document.querySelector('.scale__control--value');
+var imgUploadPreview = document.querySelector('.img-upload__preview');
+
+var changeZoom = function (size) {
+  var zoom = null;
+  zoom = size + RULES.ZOOM.STEP;
+
+  if (zoom > RULES.ZOOM.MAX) {
+    zoom = RULES.ZOOM.MAX;
+  }
+
+  if (zoom < RULES.ZOOM.MIN)
+    zoom = RULES.ZOOM.MIN;
+
+  imgUploadPreview.style.transform = 'scale(' + (zoom / 100) + ')';
+  valueScale.value = zoom + '%';
+};
+
+var onScalePlus = function () {
+    changeZoom(25);
+  };
+
+var onScaleMinis = function () {
+    changeZoom(-25);
+  };
+
+  minScale.addEventListener('click', onScaleMinis);
+  maxScale.addEventListener('click', onScalePlus);
+
+var sliderPin = document.querySelector('.effect-level__pin');
+
+var onDropPin = function (evt) {
+  sliderPin.addEventListener('mouseup');
+};
