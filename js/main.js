@@ -161,12 +161,20 @@ var uploadFileElement = document.querySelector('#upload-file');
 var closeImageEdit = document.querySelector('#upload-cancel');
 var pictureEditorElement = document.querySelector('.img-upload__overlay');
 
-document.body.classList.add('modal-open');
-pictureEditorElement.classList.remove('hidden');
+var hiddenBodyScroll = function () {
+  document.body.classList.add('modal-open');
+}
 
-var onUploadFile = function (evt) {
-  uploadFileElement.addEventListener('change', uploadFileElement);
-};
+var showBodyScroll = function () {
+  document.body.classList.remove('modal-open');
+}
+
+var onFileChange = function (evt) {
+  hiddenBodyScroll();
+  pictureEditorElement.classList.remove('hidden');
+}
+
+uploadFileElement.addEventListener('change', onFileChange);
 
 
 closeImageEdit.addEventListener('click', function () {
@@ -179,36 +187,57 @@ document.addEventListener('keydown', function (evt) {
   }
 });
 
-var minScale = document.querySelector('.scale__control--smaller');
-var maxScale = document.querySelector('.scale__control--bigger');
-var valueScale = document.querySelector('.scale__control--value');
+var scaleControls = document.querySelector('.img-upload__scale');
+var valueScale = scaleControls.querySelector('.scale__control--value');
 var imgUploadPreview = document.querySelector('.img-upload__preview');
 
-var changeZoom = function (size) {
-  var zoom = null;
-  zoom = size + RULES.ZOOM.STEP;
-
-  if (zoom > RULES.ZOOM.MAX) {
-    zoom = RULES.ZOOM.MAX;
-  }
-
-  if (zoom < RULES.ZOOM.MIN)
-    zoom = RULES.ZOOM.MIN;
-
-  imgUploadPreview.style.transform = 'scale(' + (zoom / 100) + ')';
-  valueScale.value = zoom + '%';
+var getScaleValue = function () {
+ return parseInt(valueScale.value,10)
 };
 
-var onScalePlus = function () {
-    changeZoom(25);
-  };
+var setScaleValue = function (value) {
+  valueScale.value = value;
+}
 
-var onScaleMinis = function () {
-    changeZoom(-25);
-  };
+var setCSSScaleValue = function (value) {
+  return 'scale(' + value / 100 + ')';
+}
 
-  minScale.addEventListener('click', onScaleMinis);
-  maxScale.addEventListener('click', onScalePlus);
+var transformValueInPercent = function (value) {
+  return value + '%';
+};
+
+var changeZoom = function (step) {
+  var currentValue = getScaleValue()
+  var resultValue = currentValue + step;
+
+  if (getScaleValue() > 100) {
+    resultValue = 100;
+  }
+
+  if (getScaleValue() < 25) {
+    resultValue = 25;
+  }
+
+  setScaleValue(transformValueInPercent(currentValue + step));
+  imgUploadPreview.style.transform = setCSSScaleValue(resultValue);
+  console.log(resultValue);
+};
+
+
+var onScaleClick = function (evt) {
+  if (evt.target.classList.contains('scale__control--smaller')) {
+    changeZoom(-25)
+  }
+
+  if (evt.target.classList.contains('scale__control--bigger')) {
+    changeZoom(25)
+  }
+};
+
+scaleControls.addEventListener('click', onScaleClick);
+
+
 
 var sliderPin = document.querySelector('.effect-level__pin');
 
