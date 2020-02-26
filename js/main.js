@@ -23,6 +23,21 @@ var RULES = {
     MIN: 25,
     MAX: 100,
     STEP: 25
+  },
+  VALIDATION: {
+    HASHTAG:{
+      BEGIN_SYMBOL: '#',
+      MAX_LENGHT: 20,
+      MAX_HASHTAGS: 5,
+      REQURED: false,
+    },
+    COMMENT: {
+      MAX_LENGHT: 140,
+      REQURED: false,
+    },
+  },
+  HASHTAGS: {
+
   }
 };
 
@@ -211,15 +226,15 @@ var changeZoom = function (step) {
   var currentValue = getScaleValue()
   var resultValue = currentValue + step;
 
-  if (getScaleValue() > 100) {
+  if (resultValue > 100) {
     resultValue = 100;
   }
 
-  if (getScaleValue() < 25) {
+  if (resultValue < 25) {
     resultValue = 25;
   }
 
-  setScaleValue(transformValueInPercent(currentValue + step));
+  setScaleValue(transformValueInPercent(resultValue));
   imgUploadPreview.style.transform = setCSSScaleValue(resultValue);
   console.log(resultValue);
 };
@@ -238,9 +253,50 @@ var onScaleClick = function (evt) {
 scaleControls.addEventListener('click', onScaleClick);
 
 
-
 var sliderPin = document.querySelector('.effect-level__pin');
 
 var onDropPin = function (evt) {
   sliderPin.addEventListener('mouseup');
 };
+
+var hashtag = document.querySelector('.text__hashtags');
+
+var getArrayFromString = function (string) {
+ return string.split('');
+};
+
+var checkStringLength = function (string, condition) {
+  if (string.length > condition) {
+    return false;
+  }else {
+    return true;
+  }
+};
+
+var checkBeginHashtagSymbol = function (array, symbol) {
+  if (array[0] === symbol) {
+    return true;
+  }else {
+    return false;
+  }
+};
+
+var getValidateHashtag = function (string) {
+  hashtag.setCustomValidity('');
+  if (getArrayFromString(string).length > RULES.VALIDATION.HASHTAG.MAX_LENGHT) {
+    hashtag.setCustomValidity('Длина хэштега не может быть больше 20 символов');
+    return;
+  }
+}
+
+
+var onValidateInput = function (evt) {
+  // console.log(getArrayFromString(evt.target.value));
+  // console.log(checkStringLength(evt.target.value, 20));
+  console.log(checkBeginHashtagSymbol(getArrayFromString(evt.target.value), RULES.VALIDATION.HASHTAG.BEGIN_SYMBOL));
+  getValidateHashtag(evt.target.value);
+}
+
+
+
+hashtag.addEventListener('change', onValidateInput);
