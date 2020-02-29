@@ -282,21 +282,19 @@ var checkBeginHashtagSymbol = function (array, symbol) {
 };
 
 var getValidateHashtag = function (string) {
-  hashtag.setCustomValidity('');
+  // hashtag.setCustomValidity('');
+  var customValidityMessage = null;
   if (getArrayFromString(string).length > RULES.VALIDATION.HASHTAG.MAX_LENGHT) {
-    hashtag.setCustomValidity('Длина хэштега не может быть больше 20 символов');
-    return;
+    customValidityMessage.setCustomValidity('Длина хэштега не может быть больше 20 символов');
+  } else {
+    hashtag.setCustomValidity('');
   }
-}
+};
 
 
 var onValidateInput = function (evt) {
-  // console.log(getArrayFromString(evt.target.value));
-  // console.log(checkStringLength(evt.target.value, 20));
   console.log(checkBeginHashtagSymbol(getArrayFromString(evt.target.value), RULES.VALIDATION.HASHTAG.BEGIN_SYMBOL));
   getValidateHashtag(evt.target.value);
 }
 
-
-
-hashtag.addEventListener('change', onValidateInput);
+hashtag.addEventListener('input', onValidateInput);
