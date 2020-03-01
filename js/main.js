@@ -27,6 +27,7 @@ var RULES = {
   VALIDATION: {
     HASHTAG:{
       BEGIN_SYMBOL: '#',
+      MIN_LENGHT: 2,
       MAX_LENGHT: 20,
       MAX_HASHTAGS: 5,
       REQURED: false,
@@ -170,11 +171,10 @@ closeBigPictureContainer.addEventListener('click', function () {
 
 //задание 4.1
 
-
-
 var uploadFileElement = document.querySelector('#upload-file');
 var closeImageEdit = document.querySelector('#upload-cancel');
 var pictureEditorElement = document.querySelector('.img-upload__overlay');
+var isFocusField = false;
 
 var hiddenBodyScroll = function () {
   document.body.classList.add('modal-open');
@@ -197,7 +197,7 @@ closeImageEdit.addEventListener('click', function () {
 });
 
 document.addEventListener('keydown', function (evt) {
-  if (evt.key === 'Escape') {
+  if (evt.key === 'Escape' && !isFocusField) {
     pictureEditorElement.classList.add('hidden');
   }
 });
@@ -259,42 +259,73 @@ var onDropPin = function (evt) {
   sliderPin.addEventListener('mouseup');
 };
 
-var hashtag = document.querySelector('.text__hashtags');
+// 4.1 комментарии
+var descriptionInput = document.querySelector('.text__description');
 
-var getArrayFromString = function (string) {
- return string.split('');
+var onValidateCommentInput = function () {
+    if (descriptionInput.split(' ').length > 140) {
+        descriptionInput.setCustomValidity('Комментарий не должен превышать 140 символов');
+      }
 };
 
-var checkStringLength = function (string, condition) {
-  if (string.length > condition) {
-    return false;
-  }else {
-    return true;
-  }
-};
 
-var checkBeginHashtagSymbol = function (array, symbol) {
-  if (array[0] === symbol) {
-    return true;
-  }else {
-    return false;
-  }
-};
+//4.1 задание хештеги
+var hashtagInput = document.querySelector('.text__hashtags');
+var uploadForm = document.querySelector('.img-upload__form');
 
-var getValidateHashtag = function (string) {
-  // hashtag.setCustomValidity('');
-  var customValidityMessage = null;
-  if (getArrayFromString(string).length > RULES.VALIDATION.HASHTAG.MAX_LENGHT) {
-    customValidityMessage.setCustomValidity('Длина хэштега не может быть больше 20 символов');
+var onValidateHashtagInput = function () {
+  var hashtagInputValue = hashtagInput.value.toLowerCase();
+  var hashtagsArray = hashtagInputValue.split(' ');
+  if (hashtagsArray.length > 5) {
+    hashtagInput.setCustomValidity('Хэш-тегов не может быть больше пяти');
   } else {
-    hashtag.setCustomValidity('');
+    for (var i = 0; i < hashtagsArray.length; i++) {
+      if (!hashtagsArray[i].startsWith('#')) {
+        hashtagInput.setCustomValidity('Хэш-тег должен начинаться с символа "#" (решётка)')
+      } else if (hashtagsArray[i].split('#').length > 2) {
+        hashtagInput.setCustomValidity('Хэш-теги должны разделяться пробелами')
+      } else if (hashtagsArray.indexOf(hashtagInput.value.split(' ')[i]) !== i) {
+        hashtagInput.setCustomValidity('Один и тот же хэш-тег не может быть использован дважды')
+      } else if (hashtagsArray[i].length > 20) {
+        hashtagInput.setCustomValidity('Максимальная длина одного хэш-тега должна быть не больше 20 символов');
+      } else if (hashtagsArray[i].split('').length < 2) {
+        hashtagInput.setCustomValidity('Минимальная длина одного хештега 2');
+      } else if (!hashtagsArray[i].match(/^#[0-9a-zA-Zа-яА-Я]+$/)) {
+        hashtagInput.setCustomValidity('Cтрока после решётки должна состоять из букв и чисел');
+      }
+    }
   }
 };
 
-
-var onValidateInput = function (evt) {
-  console.log(checkBeginHashtagSymbol(getArrayFromString(evt.target.value), RULES.VALIDATION.HASHTAG.BEGIN_SYMBOL));
-  getValidateHashtag(evt.target.value);
+var onFocusField = function () {
+  isFocusField = true;
 }
 
-hashtag.addEventListener('input', onValidateInput);
+var onBlurField = function () {
+  isFocusField = false;
+}
+
+hashtagInput.addEventListener('focus', onFocusField);
+hashtagInput.addEventListener('blur', onBlurField);
+
+uploadForm.addEventListener('submit', function(evt) {
+  evt.preventDefault();
+  onValidateHashtagInput();
+  onValidateCommentInput();
+});
+
+
+function onHashtagsFieldValid() {
+    hashtagInput.style.outline = '';
+    hashtagInput.setCustomValidity('');
+  }
+
+function onDescriptionFieldValid() {
+    descriptionInput.style.outline = '';
+    descriptionInput.setCustomValidity('');
+
+  }
+
+hashtagInput.addEventListener('change', onHashtagsFieldValid);
+descriptionInput.addEventListener('change', onDescriptionFieldValid);
+
