@@ -37,9 +37,6 @@ var RULES = {
       REQURED: false,
     },
   },
-  HASHTAGS: {
-
-  }
 };
 
 var COMMENTS = [
