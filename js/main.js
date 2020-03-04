@@ -164,6 +164,7 @@ var closeBigPictureContainer = document.querySelector('.big-picture__cancel');
 
 closeBigPictureContainer.addEventListener('click', function () {
   bigPictureContainer.classList.add('hidden');
+  document.body.classList.remove('modal-open');
 });
 
 //  задание 4.1
@@ -246,11 +247,7 @@ scaleControls.addEventListener('click', onScaleClick);
 
 var sliderPin = document.querySelector('.effect-level__pin');
 
-var onDropPin = function () {
-  sliderPin.addEventListener('mouseup');
-};
-
-onDropPin();
+sliderPin.addEventListener('mouseup');
 
 // 4.1 комментарии
 var descriptionInput = document.querySelector('.text__description');
@@ -323,3 +320,15 @@ function onHashtagsFieldValid() {
 }
 
 hashtagInput.addEventListener('change', onHashtagsFieldValid);
+
+
+
+// 4.3 задание
+
+
+// var onClickPicture = function () {
+//   document.body.classList.add('modal-open');
+//   bigPictureContainer.classList.remove('hidden');
+// };
+
+// pictureTemplateAll.addEventListener('click', onClickPicture);
