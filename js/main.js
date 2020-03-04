@@ -177,17 +177,12 @@ var hiddenBodyScroll = function () {
   document.body.classList.add('modal-open');
 };
 
-// var showBodyScroll = function () {
-//   document.body.classList.remove('modal-open');
-// };
-
 var onFileChange = function () {
   hiddenBodyScroll();
   pictureEditorElement.classList.remove('hidden');
 };
 
 uploadFileElement.addEventListener('change', onFileChange);
-
 
 closeImageEdit.addEventListener('click', function () {
   pictureEditorElement.classList.add('hidden');
