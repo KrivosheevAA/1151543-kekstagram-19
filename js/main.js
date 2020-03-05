@@ -252,7 +252,7 @@ scaleControls.addEventListener('click', onScaleClick);
 
 var sliderPin = document.querySelector('.effect-level__pin');
 
-sliderPin.addEventListener('mouseup', function() {
+sliderPin.addEventListener('mouseup', function () {
 
 });
 
@@ -333,14 +333,13 @@ hashtagInput.addEventListener('change', onHashtagsFieldValid);
 var pictureLink = document.querySelectorAll('.picture');
 
 
-  for (var i = 0; i < pictureLink.length; i++) {
-    (function (button, index) {
-      button.addEventListener('click', function (evt) {
-        var picture = pictures[index];
-        setBigPictureInfo(picture);
-        hiddenBodyScroll();
-        bigPictureContainer.classList.remove('hidden');
-      });
-    })(pictureLink[i], i);
-  }
-
+for (var i = 0; i < pictureLink.length; i++) {
+  (function (button, index) {
+    button.addEventListener('click', function () {
+      var picture = pictures[index];
+      setBigPictureInfo(picture);
+      hiddenBodyScroll();
+      bigPictureContainer.classList.remove('hidden');
+    });
+  })(pictureLink[i], i);
+}
