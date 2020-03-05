@@ -110,7 +110,9 @@ var renderPictureInDOM = function (pictures) {
   return picturesContainer.appendChild(fragment);
 };
 
-renderPictureInDOM(createPictures(25));
+var pictures = createPictures(25);
+
+renderPictureInDOM(pictures);
 
 var bigPictureContainer = document.querySelector('.big-picture');
 var blockCommentCouter = document.querySelector('.social__comment-count');
@@ -118,8 +120,6 @@ var loaderComments = document.querySelector('.comments-loader');
 
 blockCommentCouter.classList.add('hidden');
 loaderComments.classList.add('hidden');
-bigPictureContainer.classList.remove('hidden');
-document.body.classList.add('modal-open');
 
 var getCommentNode = function () {
   var createContainerComment = document.createElement('li');
@@ -165,6 +165,12 @@ var closeBigPictureContainer = document.querySelector('.big-picture__cancel');
 closeBigPictureContainer.addEventListener('click', function () {
   bigPictureContainer.classList.add('hidden');
   document.body.classList.remove('modal-open');
+});
+
+document.addEventListener('keydown', function (evt) {
+  if (evt.key === 'Escape') {
+    bigPictureContainer.classList.add('hidden');
+  }
 });
 
 //  задание 4.1
@@ -244,10 +250,11 @@ var onScaleClick = function (evt) {
 
 scaleControls.addEventListener('click', onScaleClick);
 
-
 var sliderPin = document.querySelector('.effect-level__pin');
 
-sliderPin.addEventListener('mouseup');
+sliderPin.addEventListener('mouseup', function() {
+
+});
 
 // 4.1 комментарии
 var descriptionInput = document.querySelector('.text__description');
@@ -321,14 +328,19 @@ function onHashtagsFieldValid() {
 
 hashtagInput.addEventListener('change', onHashtagsFieldValid);
 
-
-
 // 4.3 задание
 
+var pictureLink = document.querySelectorAll('.picture');
 
-// var onClickPicture = function () {
-//   document.body.classList.add('modal-open');
-//   bigPictureContainer.classList.remove('hidden');
-// };
 
-// pictureTemplateAll.addEventListener('click', onClickPicture);
+  for (var i = 0; i < pictureLink.length; i++) {
+    (function (button, index) {
+      button.addEventListener('click', function (evt) {
+        var picture = pictures[index];
+        setBigPictureInfo(picture);
+        hiddenBodyScroll();
+        bigPictureContainer.classList.remove('hidden');
+      });
+    })(pictureLink[i], i);
+  }
+
