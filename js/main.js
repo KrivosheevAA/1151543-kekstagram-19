@@ -196,3 +196,15 @@ hashtagInput.addEventListener('change', onHashtagsFieldValid);
 //     });
 //   })(pictureLink[i], i);
 // }
+
+//  задание 6
+
+  uploadForm.addEventListener('submit', function (evt) {
+    window.backend.save(new FormData(uploadForm), onSuccess) {
+      pictureEditorElement.classList.add('hidden');
+    };
+     evt.preventDefault();
+  });
+
+
+
