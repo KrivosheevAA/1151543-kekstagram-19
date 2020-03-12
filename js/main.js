@@ -4,7 +4,6 @@
 
 // renderPictureInDOM(pictures);
 
-
 var blockCommentCouter = document.querySelector('.social__comment-count');
 var loaderComments = document.querySelector('.comments-loader');
 
@@ -196,15 +195,3 @@ hashtagInput.addEventListener('change', onHashtagsFieldValid);
 //     });
 //   })(pictureLink[i], i);
 // }
-
-//  задание 6
-
-  uploadForm.addEventListener('submit', function (evt) {
-    window.backend.save(new FormData(uploadForm), onSuccess) {
-      pictureEditorElement.classList.add('hidden');
-    };
-     evt.preventDefault();
-  });
-
-
-
