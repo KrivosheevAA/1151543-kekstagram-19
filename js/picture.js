@@ -11,13 +11,14 @@
       clonePictureElement.querySelector('.picture__img').src = picture.url;
       clonePictureElement.querySelector('.picture__comments').textContent = picture.comments.length;
       clonePictureElement.querySelector('.picture__likes').textContent = picture.likes;
+      fragment.appendChild(clonePictureElement);
 
       return clonePictureElement;
     },
 
   renderPictureInDOM: function (pictures) {
     for (var i = 0; i < pictures.length; i++) {
-      fragment.appendChild(this.createPictureElement(pictures[i]));
+      fragment.appendChild(window.picture.createPictureElement(pictures[i]));
     }
     return picturesContainer.appendChild(fragment);
     },
@@ -35,10 +36,8 @@
     },
   };
 
-  window.backend(this.renderPictureInDOM, this.errorHandler);
+  window.backend.toLoadData(window.picture.renderPictureInDOM, window.picture.errorHandler);
 })();
-
-
 
 
 
