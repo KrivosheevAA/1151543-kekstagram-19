@@ -7,16 +7,16 @@
     window.gallery = {
     onGalleryOverlayOpen: function () {
       pictureContainer.classList.remove('hidden');
-      document.addEventListener('keydown', onGalleryOverlayEscPress);
+      document.addEventListener('keydown', window.gallery.onGalleryOverlayEscPress);
     },
 
     onGalleryOverlayClose: function () {
       pictureContainer.classList.add('hidden');
-      document.removeEventListener('keydown', onGalleryOverlayEscPress);
+      document.removeEventListener('keydown', window.gallery.onGalleryOverlayEscPress);
     },
 
     onGalleryOverlayEscPress: function (evt) {
-      window.helpers.isEscEvent(evt, onGalleryOverlayClose);
+      window.helpers.isEscEvent(evt, window.gallery.onGalleryOverlayClose);
     },
   };
 
