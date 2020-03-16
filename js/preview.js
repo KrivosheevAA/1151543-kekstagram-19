@@ -10,8 +10,6 @@
       pictureContainer.querySelector('.comments-count').textContent = picture.comments.length;
       pictureContainer.querySelector('.social__caption').textContent = picture.description;
       pictureContainer.querySelector('.social__comments').appendChild(window.preview.renderCommentElement(picture.comments));
-
-      // window.gallery.onGalleryOverlayOpen();
     },
 
     createCommentNode: function () {
@@ -26,7 +24,7 @@
       createContainerComment.appendChild(createImgElement);
       createContainerComment.appendChild(createDescriptionElement);
 
-      return createContainerComment;
+      // return createContainerComment;
     },
 
     renderCommentElement: function (comments) {
@@ -40,7 +38,7 @@
         fragment.appendChild(commentElement);
       }
 
-      return fragment;
+      // return fragment;
     },
   };
 })();
