@@ -1,10 +1,10 @@
 'use strict';
 
 (function () {
-    var buttonClose = document.querySelector('.big-picture__cancel');
-    var pictureContainer = document.querySelector('.big-picture');
+  var buttonClose = document.querySelector('.big-picture__cancel');
+  var pictureContainer = document.querySelector('.big-picture');
 
-    window.gallery = {
+  window.gallery = {
     onGalleryOverlayOpen: function () {
       pictureContainer.classList.remove('hidden');
       document.addEventListener('keydown', window.gallery.onGalleryOverlayEscPress);

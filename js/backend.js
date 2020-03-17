@@ -4,7 +4,7 @@
   var URL = 'https://js.dump.academy/kekstagram/data';
 
   window.backend = {
-   toLoadData: function (onSuccess, onError) {
+    toLoadData: function (onSuccess, onError) {
       var xhr = new XMLHttpRequest();
       xhr.responseType = 'json';
 
