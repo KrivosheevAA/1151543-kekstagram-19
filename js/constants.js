@@ -28,6 +28,7 @@
       COMMENT: {
         MAX_LENGHT: 140,
         REQURED: false,
+        MAX_COMMENTS_LENGTH: 5,
       },
     },
   };

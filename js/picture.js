@@ -38,7 +38,7 @@
       picture.forEach(function (item) {
         var pictureItem = window.picture.createPictureElement(item);
         pictureItem.addEventListener('click', function () {
-          window.showBigPost(item);
+          window.preview.showBigPost(item);
         });
         fragment.appendChild(pictureItem);
       });
