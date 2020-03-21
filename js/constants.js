@@ -17,6 +17,7 @@
       MAX: 100,
       STEP: 25
     },
+    MAX_COMMENTS_LENGTH: 5,
     VALIDATION: {
       HASHTAG: {
         BEGIN_SYMBOL: '#',
@@ -28,7 +29,6 @@
       COMMENT: {
         MAX_LENGHT: 140,
         REQURED: false,
-        MAX_COMMENTS_LENGTH: 5,
       },
     },
   };
