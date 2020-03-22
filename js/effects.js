@@ -115,7 +115,6 @@
     }
   });
 
-
   window.effects = {
     makeDeafultFilter: function () {
       makeValueFilter(pinPosition.MAX);
