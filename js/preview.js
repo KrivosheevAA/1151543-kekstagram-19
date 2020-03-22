@@ -2,16 +2,18 @@
 
 (function () {
   var pictureContainer = document.querySelector('.big-picture');
+  var btnClose = pictureContainer.querySelector('.big-picture__cancel');
   var commentsContainer = pictureContainer.querySelector('.social__comments');
   var btnLoadMore = pictureContainer.querySelector('.comments-loader');
   var counSocialComment = document.querySelector('.comments-current');
   var counComment = document.querySelector('.social__comment-count');
-  var countLoadComments = 0;
   var currentComments = [];
+  var countLoadComments = 0;
 
   window.preview = {
-    removeCommentList: function () {
+    clearCommentData: function () {
       commentsContainer.innerHTML = '';
+      countLoadComments = 0;
     },
 
     addPictureInfo: function (picture) {
@@ -22,19 +24,19 @@
     },
 
     loadMoreComments: function (count) {
-        countLoadComments += count;
+      countLoadComments += count;
 
-        for (var i = 0; i < count; i++) {
-          if (currentComments[0]) {
-            commentsContainer.appendChild(window.preview.renderComment(currentComments[0]));
-          }
-          currentComments.splice(0, 1);
+      for (var i = 0; i < count; i++) {
+        if (currentComments[0]) {
+          commentsContainer.appendChild(window.preview.renderComment(currentComments[0]));
         }
+        currentComments.splice(0, 1);
+      }
 
-        if (currentComments.length === 0) {
-          btnLoadMore.classList.add('hidden');
-        }
-        counSocialComment.textContent = countLoadComments.toString();
+      if (currentComments.length === 0) {
+        btnLoadMore.classList.add('hidden');
+      }
+      counSocialComment.textContent = countLoadComments.toString();
     },
 
     renderComment: function (comment) {
@@ -56,34 +58,59 @@
       return createContainerComment;
     },
 
-    hiddenElementPicture: function () {
-        pictureContainer.classList.remove('hidden');
-        btnLoadMore.classList.remove('hidden');
-        counComment.classList.remove('hidden');
+    showElementPicture: function () {
+      document.body.classList.add('modal-open');
+      pictureContainer.classList.remove('hidden');
+      btnLoadMore.classList.remove('hidden');
+      counComment.classList.remove('hidden');
     },
 
+    hiddenElementPicture: function () {
+      pictureContainer.classList.add('hidden');
+      document.body.classList.remove('modal-open');
 
+    },
 
     showBigPost: function (picture) {
+      window.preview.clearCommentData();
       currentComments = picture.comments.slice();
       window.preview.loadMoreComments(window.helpers.clamp(currentComments.length, 0, window.constants.MAX_COMMENTS_LENGTH));
-      document.body.classList.add('modal-open');
       window.preview.addPictureInfo(picture);
-      window.gallery.openUploadOverlay();
-      // btnLoadMore.addEventListener('click', function () {
-      //   window.preview.loadMoreComments(window.helpers.clamp(currentComments.length, 0, window.constants.MAX_COMMENTS_LENGTH));
-      // });
-      btnLoadMore.addEventListener('click', window.preview.onbtnLoadMore);
+      window.preview.openUploadOverlay();
+
     },
-
-
 
     onbtnLoadMore: function () {
       window.preview.loadMoreComments(window.helpers.clamp(currentComments.length, 0, window.constants.MAX_COMMENTS_LENGTH));
     },
 
-    removeBtnLoadMore: function () {
-      document.removeEventListener('click', window.preview.onbtnLoadMore);
+    onGalleryOverlayClose: function () {
+      window.preview.hiddenElementPicture();
+      document.removeEventListener('keydown', window.preview.onGalleryOverlayEscPress);
+      btnLoadMore.removeEventListener('click', window.preview.onbtnLoadMore);
+      btnClose.removeEventListener('click', window.preview.onBtnCloseOverlayClick);
+    },
+
+    onGalleryOverlayEscPress: function (evt) {
+      window.helpers.isEscEvent(evt, window.preview.onGalleryOverlayClose);
+    },
+
+    onBtnCloseOverlayClick: function () {
+      window.preview.closeUploadOverlay();
+      window.preview.hiddenElementPicture();
+    },
+
+
+    closeUploadOverlay: function () {
+      btnClose.removeEventListener('click', window.preview.onBtnCloseOverlayClick);
+      document.removeEventListener('keydown', window.preview.onGalleryOverlayEscPress);
+    },
+
+    openUploadOverlay: function () {
+      window.preview.showElementPicture();
+      btnLoadMore.addEventListener('click', window.preview.onbtnLoadMore);
+      btnClose.addEventListener('click', window.preview.onBtnCloseOverlayClick);
+      document.addEventListener('keydown', window.preview.onGalleryOverlayEscPress);
     },
   };
 })();

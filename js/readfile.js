@@ -10,7 +10,7 @@
     var fileName = file.name.toLowerCase();
 
     var matches = FILE_TYPES.some(function (it) {
-     return fileName.endsWith(it);
+      return fileName.endsWith(it);
     });
 
     if (matches) {
@@ -21,9 +21,6 @@
       });
 
       reader.readAsDataURL(file);
-    } else {
-      inputTypeFile.value = '';
-      window.requestResult.displayError('Неверный формат файла!', false);
     }
   });
 })();

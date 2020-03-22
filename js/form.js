@@ -2,25 +2,30 @@
 
 (function () {
 
-var uploadFileElement = document.querySelector('#upload-file');
-var closeImageEdit = document.querySelector('#upload-cancel');
-var pictureEditorElement = document.querySelector('.img-upload__overlay');
-var isFocusField = false;
-var scaleControls = document.querySelector('.img-upload__scale');
-var valueScale = scaleControls.querySelector('.scale__control--value');
-var imgUploadPreview = document.querySelector('.img-upload__preview');
-var sliderPin = document.querySelector('.effect-level__pin');
+  var uploadFileElement = document.querySelector('#upload-file');
+  var closeImageEdit = document.querySelector('#upload-cancel');
+  var pictureEditorElement = document.querySelector('.img-upload__overlay');
+  var isFocusField = false;
+  var scaleControls = document.querySelector('.img-upload__scale');
+  var valueScale = scaleControls.querySelector('.scale__control--value');
+  var imgUploadPreview = document.querySelector('.img-upload__preview');
+  var form = document.querySelector('.img-upload__form');
+  var successTemplate = document.querySelector('#success').content;
+  var errorTemplate = document.querySelector('#error').content;
+  var mainLayout = document.querySelector('.site-content');
 
-window.form = {
+  window.form = {
     hiddenBodyScroll: function () {
       document.body.classList.add('modal-open');
     },
 
     onFileChange: function () {
+      document.addEventListener('keydown', window.form.onDocumentKeyDown);
       window.form.hiddenBodyScroll();
       pictureEditorElement.classList.remove('hidden');
+      closeImageEdit.addEventListener('click', window.form.oncloseImageEditor);
+      window.effects.makeDeafultFilter();
     },
-
 
     getScaleValue: function () {
       return parseInt(valueScale.value, 10);
@@ -64,24 +69,57 @@ window.form = {
         window.form.changeZoom(25);
       }
     },
+
+    oncloseImageEditor: function () {
+      pictureEditorElement.classList.add('hidden');
+      document.body.classList.remove('modal-open');
+    },
+
+    onDocumentKeyDown: function (evt) {
+      if (evt.key === 'Escape' && !isFocusField) {
+        pictureEditorElement.classList.add('hidden');
+        closeImageEdit.removeEventListener('click', window.form.oncloseImageEditor);
+        document.removeEventListener('keydown', window.form.onDocumentKeyDown);
+      }
+    },
+
+    closeUploadOverlay: function () {
+      pictureEditorElement.classList.add('hidden');
+      document.body.classList.remove('modal-open');
+      form.reset();
+    },
+
+    renderSuccessMessege: function () {
+      var clone = successTemplate.cloneNode(true);
+      mainLayout.appendChild(clone);
+      var btnSuccess = mainLayout.querySelector('.success').querySelector('.success__button');
+      btnSuccess.addEventListener('click', function () {
+        mainLayout.removeChild(mainLayout.querySelector('.success'));
+      });
+    },
+
+    renderErrorMessege: function () {
+      var clone = errorTemplate.cloneNode(true);
+      mainLayout.appendChild(clone);
+      var btnError = mainLayout.querySelector('.error').querySelector('.error__button');
+      btnError.addEventListener('click', function () {
+        mainLayout.removeChild(mainLayout.querySelector('.error'));
+      });
+    },
+
+    onEscClose: function (evt) {
+      if (evt.key === 'Escape') {
+        var modal = mainLayout.querySelector('.success') || mainLayout.querySelector('.error');
+        mainLayout.removeChild(modal);
+      }
+    },
+
+    onClickOverlay: function (evt) {
+      if (evt.target.classList.contains('success' || 'error')) {
+        mainLayout.removeChild(evt.target);
+      }
+    },
   };
-
-uploadFileElement.addEventListener('change', window.form.onFileChange);
-
-closeImageEdit.addEventListener('click', function () {
-  pictureEditorElement.classList.add('hidden');
-});
-
-document.addEventListener('keydown', function (evt) {
-  if (evt.key === 'Escape' && !isFocusField) {
-    pictureEditorElement.classList.add('hidden');
-  }
-});
-
-scaleControls.addEventListener('click', window.form.onScaleClick);
-
-sliderPin.addEventListener('mouseup', function () {
-
-});
-
+  uploadFileElement.addEventListener('change', window.form.onFileChange);
+  scaleControls.addEventListener('click', window.form.onScaleClick);
 })();
