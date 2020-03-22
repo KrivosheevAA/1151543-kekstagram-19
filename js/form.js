@@ -58,7 +58,6 @@
       imgUploadPreview.style.transform = window.form.setCSSScaleValue(resultValue);
     },
 
-
     onScaleClick: function (evt) {
       if (evt.target.classList.contains('scale__control--smaller')) {
         window.form.changeZoom(-25);
