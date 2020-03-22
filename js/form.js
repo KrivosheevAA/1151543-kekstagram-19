@@ -5,7 +5,6 @@
   var uploadFileElement = document.querySelector('#upload-file');
   var closeImageEdit = document.querySelector('#upload-cancel');
   var pictureEditorElement = document.querySelector('.img-upload__overlay');
-  var isFocusField = false;
   var scaleControls = document.querySelector('.img-upload__scale');
   var valueScale = scaleControls.querySelector('.scale__control--value');
   var imgUploadPreview = document.querySelector('.img-upload__preview');
@@ -76,7 +75,7 @@
     },
 
     onDocumentKeyDown: function (evt) {
-      if (evt.key === 'Escape' && !isFocusField) {
+      if (evt.key === 'Escape' && !window.validation.isFocusField) {
         pictureEditorElement.classList.add('hidden');
         closeImageEdit.removeEventListener('click', window.form.oncloseImageEditor);
         document.removeEventListener('keydown', window.form.onDocumentKeyDown);

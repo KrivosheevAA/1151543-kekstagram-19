@@ -4,7 +4,7 @@
   var descriptionInput = document.querySelector('.text__description');
   var hashtagInput = document.querySelector('.text__hashtags');
   var uploadForm = document.querySelector('.img-upload__form');
-  var isFocusField = false; // eslint-disable-line no-unused-vars
+  var isFocusField = false;
   var validationError = false;
 
   window.validation = {
@@ -60,7 +60,6 @@
       isFocusField = false;
     },
 
-
     onHashtagsFieldValid: function () {
       validationError = false;
       hashtagInput.style.outline = '';
@@ -82,6 +81,8 @@
       var errorOverlay = document.querySelector('.error');
       errorOverlay.addEventListener('click', window.form.onClickOverlay);
     },
+
+    isFocusField: isFocusField,
   };
   hashtagInput.addEventListener('change', window.validation.onHashtagsFieldValid);
   descriptionInput.addEventListener('change', window.validation.onDescriptionFieldValid);
