@@ -21,7 +21,6 @@
       descriptionInput.setCustomValidity('');
     },
 
-
     onValidateHashtagInput: function () {
       var hashtagInputValue = hashtagInput.value.toLowerCase();
       var hashtagsArray = hashtagInputValue.split(' ');
