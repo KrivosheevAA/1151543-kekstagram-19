@@ -6,7 +6,7 @@
   var pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
   var filterBlock = document.querySelector('.img-filters');
   var activeFilterButton = document.querySelector('.img-filters__button--active');
-  var SortPicture = {
+  var sortPicture = {
     'filter-default': function (array) {
       return array;
     },
@@ -38,7 +38,7 @@
       picture.forEach(function (item) {
         var pictureItem = window.picture.createPictureElement(item);
         pictureItem.addEventListener('click', function () {
-          window.showBigPost(item);
+          window.preview.showBigPost(item);
         });
         fragment.appendChild(pictureItem);
       });
@@ -71,7 +71,9 @@
 
     clearPictures: function () {
       var pictureList = picturesContainer.querySelectorAll('.picture');
-      pictureList.forEach(function (item) {
+      var arrayPictures = Array.prototype.slice.call(pictureList);
+
+      arrayPictures.forEach(function (item) {
         item.parentNode.removeChild(item);
       });
     },
@@ -79,7 +81,7 @@
     onBtnSortClick: function (evt) {
       if (evt.target.tagName === 'BUTTON') {
         var sortArr = picturesData.slice();
-        SortPicture[evt.target.id](sortArr);
+        sortPicture[evt.target.id](sortArr);
 
         window.picture.clearPictures();
         window.helpers.debounce(window.picture.renderPictureInDOM(sortArr));
