@@ -1,7 +1,6 @@
 'use strict';
 
 (function () {
-
   var uploadFileElement = document.querySelector('#upload-file');
   var closeImageEdit = document.querySelector('#upload-cancel');
   var pictureEditorElement = document.querySelector('.img-upload__overlay');
